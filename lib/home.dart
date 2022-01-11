@@ -188,9 +188,21 @@ class _MyAppState extends State<Home> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(5),
-                                  child: Text(
-                                    "\$${snapshot.data!.products[index].price}",
-                                    style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),
+                                  child: Row(
+                                    children: [
+                                  
+                                      
+                                       
+                                      
+                                      Text(
+                                        "\$${snapshot.data!.products[index].price}",
+                                        style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),
+                                      ),
+                                      Text(
+                                        "\$${snapshot.data!.products[index].sale_price}",
+                                        style: TextStyle(decoration: TextDecoration.lineThrough,color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),
+                                      ),
+                                    ],
                                   ),
                                 ),
                                 Padding(
