@@ -1,27 +1,23 @@
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
-import 'dart:convert';
+
 
 import 'package:wedevs_assignment/home.dart';
-import 'package:wedevs_assignment/login.dart';
+import 'package:wedevs_assignment/signUp.dart';
 
-class SignUpPage extends StatefulWidget {
-  SignUpPage({Key? key, this.title}) : super(key: key);
+class LoginUpPage extends StatefulWidget {
+  LoginUpPage({Key? key, this.title}) : super(key: key);
 
   final String? title;
 
   @override
-  _SignUpPageState createState() => _SignUpPageState();
+  _LoginUpPageState createState() => _LoginUpPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
- 
-
-  TextEditingController _name = TextEditingController();
-  TextEditingController _email = TextEditingController();
+class _LoginUpPageState extends State<LoginUpPage> {
+  TextEditingController _username = TextEditingController();
   TextEditingController _password = TextEditingController();
-  TextEditingController _confirmpassword = TextEditingController();
 
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
@@ -34,7 +30,6 @@ class _SignUpPageState extends State<SignUpPage> {
               fontWeight: FontWeight.w700,
               color: Color(0xffe46b10)),
           children: [
-            
             TextSpan(
               text: 'Dokan',
               style: TextStyle(color: Color(0xffe46b10), fontSize: 30),
@@ -65,7 +60,6 @@ class _SignUpPageState extends State<SignUpPage> {
                       SizedBox(
                         height: 50,
                       ),
-                   
 
                       Container(
                         margin: EdgeInsets.symmetric(vertical: 10),
@@ -75,24 +69,6 @@ class _SignUpPageState extends State<SignUpPage> {
                             SizedBox(
                               height: 10,
                             ),
-                            TextFormField(
-                              controller: _name,
-                              keyboardType: TextInputType.text,
-                              validator: (String? value) {
-                                if (value!.isEmpty) {
-                                  return "Please enter name";
-                                }
-
-                                return null;
-                              },
-                              onSaved: (String? phone) {},
-                              decoration: InputDecoration(
-                                  prefixIcon: Icon(Icons.people),
-                                  hintText: 'Name',
-                                  border: InputBorder.none,
-                                  fillColor: Color(0xfff3f3f4),
-                                  filled: true),
-                            )
                           ],
                         ),
                       ),
@@ -105,18 +81,18 @@ class _SignUpPageState extends State<SignUpPage> {
                               height: 10,
                             ),
                             TextFormField(
-                                controller: _email,
+                                controller: _username,
                                 keyboardType: TextInputType.text,
                                 validator: (String? value) {
                                   if (value!.isEmpty) {
-                                    return "Please enter email";
+                                    return "Please enter username";
                                   }
                                   return null;
                                 },
                                 // onSaved: (String? name) {},
                                 decoration: InputDecoration(
                                     prefixIcon: Icon(Icons.email),
-                                    hintText: 'Email',
+                                    hintText: 'Username',
                                     border: InputBorder.none,
                                     fillColor: Color(0xfff3f3f4),
                                     filled: true))
@@ -151,7 +127,6 @@ class _SignUpPageState extends State<SignUpPage> {
                                       fillColor: Color(0xfff3f3f4),
                                       filled: true),
                                 ),
-                                
                               ],
                             )
                           ],
@@ -165,31 +140,6 @@ class _SignUpPageState extends State<SignUpPage> {
                             SizedBox(
                               height: 10,
                             ),
-                            Column(
-                              children: [
-                                TextFormField(
-                                  controller: _confirmpassword,
-                                  // obscureText: _obscureText,
-                                  keyboardType: TextInputType.text,
-                                  validator: (String? value) {
-                                    if (value!.isEmpty) {
-                                      return "Please re-enter password";
-                                    }
-                                    if (_password.text !=
-                                        _confirmpassword.text) {
-                                      return "Password Do not match";
-                                    }
-                                    return null;
-                                  },
-                                  decoration: InputDecoration(
-                                      prefixIcon: Icon(Icons.lock),
-                                      hintText: 'Confirm Password',
-                                      border: InputBorder.none,
-                                      fillColor: Color(0xfff3f3f4),
-                                      filled: true),
-                                ),
-                              ],
-                            ),
                           ],
                         ),
                       ),
@@ -202,7 +152,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       InkWell(
                         onTap: () {
                           if (_formkey.currentState!.validate()) {
-                            registrationUser();
+                            loginUser();
                             print("Successful");
                           } else {
                             print("Unsuccessfull");
@@ -220,7 +170,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           //   ),
                           // ),
                           child: Text(
-                            'SignUp',
+                            'Login',
                             style: TextStyle(fontSize: 20, color: Colors.white),
                           ),
                         ),
@@ -241,27 +191,29 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-Future registrationUser() async {
-     var url = 'https://apptest.dokandemo.com/wp-json/wp/v2/users/register';
-     Map mapeddate = {
-      'username': _name.text,
-      'email': _email.text,
+  Future loginUser() async {
+    var url = 'https://apptest.dokandemo.com/wp-json/jwt-auth/v1/token';
+    Map mapeddate = {
+      'username': _username.text,
       'password': _password.text,
-      
     };
-  // var body = jsonEncode({'username': 'USERNAME', 'email': 'USERNAME', 'password': 'SECRET' });
-  http.post(Uri.parse(url),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode(mapeddate)
-  ).then((http.Response response) {
-    final int statusCode = response.statusCode;
-if(statusCode==200){
-  print('object');
-   Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Home()));
-}
-  });
+    // var body = jsonEncode({'username': 'USERNAME', 'email': 'USERNAME', 'password': 'SECRET' });
+    http
+        .post(Uri.parse(url),
+            headers: {"Content-Type": "application/x-www-form-urlencoded"},
+            body: mapeddate)
+        .then((http.Response response) {
+      final int statusCode = response.statusCode;
+      if (statusCode == 200) {
+        print('object');
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Home()));
+      } else {
+        print('bad request');
+      }
+    });
   }
+
   Widget socialIconsRow() {
     return Container(
       margin: EdgeInsets.only(top: 10),
@@ -293,20 +245,16 @@ if(statusCode==200){
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text(
-            "Already have an account?",
-            style: TextStyle(fontWeight: FontWeight.w500),
-          ),
           SizedBox(
             width: 5,
           ),
           GestureDetector(
             onTap: () {
-                Navigator.push(
-          context, MaterialPageRoute(builder: (context) => LoginUpPage()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SignUpPage()));
             },
             child: Text(
-              "Login",
+              "Create New Account",
               style: TextStyle(
                   fontWeight: FontWeight.w800,
                   color: Colors.blue,
