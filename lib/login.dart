@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:wedevs_assignment/botttomNav.dart';
 
 
 import 'package:wedevs_assignment/home.dart';
@@ -207,7 +208,7 @@ class _LoginUpPageState extends State<LoginUpPage> {
       if (statusCode == 200) {
         print('object');
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Home()));
+            context, MaterialPageRoute(builder: (context) => BotNav()));
       } else {
         print('bad request');
       }

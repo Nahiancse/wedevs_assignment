@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+ 
 
 class Product {
   String name;
@@ -16,19 +16,7 @@ class Product {
   List image;
   bool on_sale;
   
-  // String userName;
-  // String phoneNumber;
-  // String docNurId;
-  // String gender;
-  // String dateOfBirth;
-  // String age;
-  // String bloodGroup;
-  // String nid;
-
-  // String address;
-  // String password;
-
-  // String registrationNo;
+  
 
   Product({
     required this.name,
@@ -40,12 +28,7 @@ class Product {
     required this.total_sales,
     required this.image,
     required this.on_sale,
-    // required this.age,
-    // required this.bloodGroup,
-    // required this.nid,
-    // required this.address,
-    // required this.password,
-    // required this.registrationNo,
+
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
@@ -58,19 +41,7 @@ class Product {
       total_sales: json['total_sales'],
       image: json['images'],
       on_sale: json['on_sale'],
-       
-      // depid: json['Dept_ID'],
-      // userName: json['userName'],
-      // phoneNumber: json['PhoneNumber'],
-      // docNurId: json['DocNurID'],
-      // gender: json['Gender'],
-      // dateOfBirth: json['DateOfBirth'],
-      // age: json['Age'],
-      // bloodGroup: json['BloodGroup'],
-      // nid: json['NID'],
-      // address: json['Address'],
-      // password: json['Password'],
-      // registrationNo: json['RegistrationNo'],
+    
     );
   }
 }
@@ -113,6 +84,9 @@ class Home extends StatefulWidget {
 }
 
 class _MyAppState extends State<Home> {
+   PageController? pageController;
+  int page = 0;
+
   late Future<ProductList> futureAlbum;
 
   @override
@@ -189,19 +163,36 @@ class _MyAppState extends State<Home> {
                                 Padding(
                                   padding: const EdgeInsets.all(5),
                                   child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                                     children: [
-                                  
+                                      if(snapshot.data!.products[index].on_sale==true)...[
+Text(
+                                        
+                                        "\$${snapshot.data!.products[index].regular_price}",
+                                        style: TextStyle(decoration: TextDecoration.lineThrough,color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),
+                                      ),
+                                      ]else...[
+Text(
+                                        
+                                        "\$${snapshot.data!.products[index].regular_price}",
+                                        style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),
+                                      ),
+                                      ],
+                                    
                                       
                                        
                                       
-                                      Text(
-                                        "\$${snapshot.data!.products[index].price}",
+                                      if(snapshot.data!.products[index].on_sale==true)...[
+Text(
+                                        
+                                        "\$${snapshot.data!.products[index].sale_price}",
                                         style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),
                                       ),
-                                      Text(
-                                        "\$${snapshot.data!.products[index].sale_price}",
-                                        style: TextStyle(decoration: TextDecoration.lineThrough,color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),
-                                      ),
+                                      ],
+                                      // Text( 
+                                      //   "\$${snapshot.data!.products[index].regular_price}",
+                                      //   style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),
+                                      // ),
                                     ],
                                   ),
                                 ),
