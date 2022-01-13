@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
-import 'package:wedevs_assignment/botttomNav.dart';
+import 'package:wedevs_assignment/screens/botttomNav.dart';
 
-
-import 'package:wedevs_assignment/home.dart';
-import 'package:wedevs_assignment/signUp.dart';
+import 'package:wedevs_assignment/screens/signUp.dart';
 
 class LoginUpPage extends StatefulWidget {
   LoginUpPage({Key? key, this.title}) : super(key: key);
@@ -164,12 +162,6 @@ class _LoginUpPageState extends State<LoginUpPage> {
                           padding: EdgeInsets.symmetric(vertical: 15),
                           alignment: Alignment.center,
                           color: Colors.red,
-                          //                     decoration: BoxDecoration(
-                          //   borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                          //   gradient: LinearGradient(
-                          //     colors: <Color>[Colors.orange, Colors.pink],
-                          //   ),
-                          // ),
                           child: Text(
                             'Login',
                             style: TextStyle(fontSize: 20, color: Colors.white),
@@ -199,22 +191,21 @@ class _LoginUpPageState extends State<LoginUpPage> {
       'password': _password.text,
     };
     // var body = jsonEncode({'username': 'USERNAME', 'email': 'USERNAME', 'password': 'SECRET' });
-    http
-        .post(Uri.parse(url),
-            headers: {"Content-Type": "application/x-www-form-urlencoded"},
-            body: mapeddate)
-        .then((http.Response response) {
-      final int statusCode = response.statusCode;
-      if (statusCode == 200) {
-        print('object');
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => BotNav()));
-        // Navigator.push(
-        //     context, MaterialPageRoute(builder: (context) => BotNav()));
-      } else {
-        print('bad request');
-      }
-    });
+    var response = await http.post(Uri.parse(url),
+        headers: {"Content-Type": "application/x-www-form-urlencoded"},
+        body: mapeddate);
+
+    int statusCode = response.statusCode;
+    var b = response.body;
+    if (statusCode == 200) {
+      print(b);
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => BotNav()));
+      // Navigator.push(
+      //     context, MaterialPageRoute(builder: (context) => BotNav()));
+    } else {
+      print('bad request');
+    }
   }
 
   Widget socialIconsRow() {

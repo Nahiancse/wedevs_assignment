@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'package:wedevs_assignment/home.dart';
-import 'package:wedevs_assignment/login.dart';
+import 'package:wedevs_assignment/screens/home.dart';
+import 'package:wedevs_assignment/screens/login.dart';
 
 class SignUpPage extends StatefulWidget {
   SignUpPage({Key? key, this.title}) : super(key: key);
@@ -16,8 +16,6 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
- 
-
   TextEditingController _name = TextEditingController();
   TextEditingController _email = TextEditingController();
   TextEditingController _password = TextEditingController();
@@ -34,7 +32,6 @@ class _SignUpPageState extends State<SignUpPage> {
               fontWeight: FontWeight.w700,
               color: Color(0xffe46b10)),
           children: [
-            
             TextSpan(
               text: 'Dokan',
               style: TextStyle(color: Color(0xffe46b10), fontSize: 30),
@@ -65,7 +62,6 @@ class _SignUpPageState extends State<SignUpPage> {
                       SizedBox(
                         height: 50,
                       ),
-                   
 
                       Container(
                         margin: EdgeInsets.symmetric(vertical: 10),
@@ -151,7 +147,6 @@ class _SignUpPageState extends State<SignUpPage> {
                                       fillColor: Color(0xfff3f3f4),
                                       filled: true),
                                 ),
-                                
                               ],
                             )
                           ],
@@ -213,12 +208,6 @@ class _SignUpPageState extends State<SignUpPage> {
                           padding: EdgeInsets.symmetric(vertical: 15),
                           alignment: Alignment.center,
                           color: Colors.red,
-                          //                     decoration: BoxDecoration(
-                          //   borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                          //   gradient: LinearGradient(
-                          //     colors: <Color>[Colors.orange, Colors.pink],
-                          //   ),
-                          // ),
                           child: Text(
                             'SignUp',
                             style: TextStyle(fontSize: 20, color: Colors.white),
@@ -241,27 +230,28 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-Future registrationUser() async {
-     var url = 'https://apptest.dokandemo.com/wp-json/wp/v2/users/register';
-     Map mapeddate = {
+  Future registrationUser() async {
+    var url = 'https://apptest.dokandemo.com/wp-json/wp/v2/users/register';
+    Map mapeddate = {
       'username': _name.text,
       'email': _email.text,
       'password': _password.text,
-      
     };
-  // var body = jsonEncode({'username': 'USERNAME', 'email': 'USERNAME', 'password': 'SECRET' });
-  http.post(Uri.parse(url),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode(mapeddate)
-  ).then((http.Response response) {
-    final int statusCode = response.statusCode;
-if(statusCode==200){
-  print('object');
-   Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Home()));
-}
-  });
+    // var body = jsonEncode({'username': 'USERNAME', 'email': 'USERNAME', 'password': 'SECRET' });
+    http
+        .post(Uri.parse(url),
+            headers: {"Content-Type": "application/json"},
+            body: jsonEncode(mapeddate))
+        .then((http.Response response) {
+      final int statusCode = response.statusCode;
+      if (statusCode == 200) {
+        print('object');
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Home()));
+      }
+    });
   }
+
   Widget socialIconsRow() {
     return Container(
       margin: EdgeInsets.only(top: 10),
@@ -302,8 +292,8 @@ if(statusCode==200){
           ),
           GestureDetector(
             onTap: () {
-                Navigator.push(
-          context, MaterialPageRoute(builder: (context) => LoginUpPage()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => LoginUpPage()));
             },
             child: Text(
               "Login",

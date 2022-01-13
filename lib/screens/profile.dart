@@ -8,8 +8,8 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-    //  final GlobalKey<> _formkey = GlobalKey<ExpansionTileState>();
-   TextEditingController _firsName = TextEditingController();
+  //  final GlobalKey<> _formkey = GlobalKey<ExpansionTileState>();
+  TextEditingController _firsName = TextEditingController();
   TextEditingController _lastName = TextEditingController();
   String? key;
   String firstName = 'Demo';
@@ -67,7 +67,6 @@ class _ProfileState extends State<Profile> {
                     child: Column(
                       children: [
                         ExpansionTile(
-                       
                           title: Row(
                             children: [
                               Icon(Icons.people),
@@ -98,7 +97,6 @@ class _ProfileState extends State<Profile> {
                                           height: 10,
                                         ),
                                         TextFormField(
-                                          
                                             controller: _firsName,
                                             keyboardType: TextInputType.text,
                                             validator: (String? value) {
@@ -109,7 +107,7 @@ class _ProfileState extends State<Profile> {
                                             },
                                             onSaved: (String? name) {},
                                             decoration: InputDecoration(
-                                              hintText: 'enter first name',
+                                                hintText: 'enter first name',
                                                 border: InputBorder.none,
                                                 fillColor: Color(0xfff3f3f4),
                                                 filled: true))
@@ -142,7 +140,7 @@ class _ProfileState extends State<Profile> {
                                             },
                                             onSaved: (String? name) {},
                                             decoration: InputDecoration(
-                                              hintText: 'enter last name',
+                                                hintText: 'enter last name',
                                                 border: InputBorder.none,
                                                 fillColor: Color(0xfff3f3f4),
                                                 filled: true)),
@@ -158,9 +156,7 @@ class _ProfileState extends State<Profile> {
                                                       ElevatedButton.styleFrom(
                                                     primary: Colors.red,
                                                   ),
-                                                  onPressed: () {
-                                                    
-                                                  },
+                                                  onPressed: () {},
                                                   child: Text('Cancel')),
                                               SizedBox(
                                                 width: 10,
@@ -171,8 +167,9 @@ class _ProfileState extends State<Profile> {
                                                           primary: Colors.blue),
                                                   onPressed: () {
                                                     setState(() {
-                                                      firstName=_firsName.text;
-                                                      lastName=_lastName.text;
+                                                      firstName =
+                                                          _firsName.text;
+                                                      lastName = _lastName.text;
                                                       _firsName.clear();
                                                       _lastName.clear();
                                                     });
@@ -193,8 +190,6 @@ class _ProfileState extends State<Profile> {
                           color: Colors.black54,
                         ),
                         ExpansionTile(
-                          
-                     
                           title: Row(
                             children: [
                               Icon(Icons.lock),

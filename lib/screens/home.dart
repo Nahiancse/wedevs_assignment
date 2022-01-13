@@ -4,71 +4,14 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 
 import 'package:flutter/material.dart';
-
-class Product {
-  String name;
-  String short_description;
-  String price;
-  String regular_price;
-  String sale_price;
-  int total_sales;
-  List image;
-  bool on_sale;
-
-  Product({
-    required this.name,
-    required this.short_description,
-    required this.price,
-    required this.regular_price,
-    required this.sale_price,
-    required this.total_sales,
-    required this.image,
-    required this.on_sale,
-  });
-
-  factory Product.fromJson(Map<String, dynamic> json) {
-    return Product(
-      name: json['name'],
-      short_description: json['short_description'],
-      price: json['price'],
-      regular_price: json['regular_price'],
-      sale_price: json['sale_price'],
-      total_sales: json['total_sales'],
-      image: json['images'],
-      on_sale: json['on_sale'],
-    );
-  }
-}
-
-class ProductList {
-   List<Product> products;
-
-  ProductList({
-    required this.products,
-  });
-
-  factory ProductList.fromJson(List<dynamic> parsedJson) {
-    List<Product> products;
-    products = parsedJson.map((i) => Product.fromJson(i)).toList();
-
-    return ProductList(products: products);
-  }
-}
-
-///////////////////////////////////////////////////////////////////////////////////
+import 'package:wedevs_assignment/models/productModel.dart';
 
 //fetch function
-Future<ProductList> fetchAlbum() async {
+Future<ProductList> fetchProduct() async {
   final String response = await rootBundle.loadString('assets/response.json');
-  //  List data = await json.decode(response);
   var data = ProductList.fromJson(jsonDecode(response));
   return data;
-  //  return ProductList.fromJson(jsonDecode(response));
 }
-
-///////////////////////////////////////////////////////////////////////////////////
-
-// void main() => runApp(const MyApp());
 
 class Home extends StatefulWidget {
   @override
@@ -77,35 +20,29 @@ class Home extends StatefulWidget {
 
 class _MyAppState extends State<Home> {
   bool value = false;
-   
-   List<Product>? allProducts;
-   List<Product>? filterProducts;
-   List<Product>? result;
+
+  List<Product>? allProducts;
+  List<Product>? filterProducts;
+  List<Product>? result;
   PageController? pageController;
   int page = 0;
 
-  late Future<ProductList> futureAlbum;
-  
+  late Future<ProductList> futureProduct;
 
   @override
   void initState() {
     super.initState();
-    futureAlbum = fetchAlbum();
-     fetchAlbum().then((value){
-       setState(() {
-         allProducts=filterProducts=value.products;
-       });
-     });
-  
-     
-  }
-  List<Product> _filterProd(){
-   return result=allProducts!.where((element) => element.on_sale).toList();
-   
-
+    futureProduct = fetchProduct();
+    fetchProduct().then((value) {
+      setState(() {
+        allProducts = filterProducts = value.products;
+      });
+    });
   }
 
-
+  List<Product> _filterProd() {
+    return result = allProducts!.where((element) => element.on_sale).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,6 +53,8 @@ class _MyAppState extends State<Home> {
       ),
       home: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.white,
           centerTitle: true,
           leading: InkWell(
             onTap: () {
@@ -126,11 +65,16 @@ class _MyAppState extends State<Home> {
               color: Colors.black54,
             ),
           ),
-          title: const Text('Product List'),
+          title: const Text('Product List',
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold)),
+          actions: [Icon(Icons.search)],
         ),
         body: Center(
           child: FutureBuilder<ProductList>(
-            future: futureAlbum,
+            future: futureProduct,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Column(
@@ -170,45 +114,24 @@ class _MyAppState extends State<Home> {
                                                 ),
                                                 Row(
                                                   children: [
-                                                    Text('On Sale',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                                                    Text(
+                                                      'On Sale',
+                                                      style: TextStyle(
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
                                                     Checkbox(
                                                       value: value,
                                                       onChanged: (value) {
                                                         setState(() {
                                                           this.value = value!;
                                                           // print(allProducts!.length);
-                                                         
- 
-
-                                                       
-                                                         
                                                         });
                                                       },
                                                     ),
                                                   ],
                                                 ),
-                                                // Row(
-                                                //   children: [
-                                                //     Text('Newest'),
-                                                //     Checkbox(
-                                                //       value: false,
-                                                //       onChanged: (value) {
-                                                //         setState(() {});
-                                                //       },
-                                                //     ),
-                                                //   ],
-                                                // ),
-                                                // Row(
-                                                //   children: [
-                                                //     Text('BestSelling'),
-                                                //     Checkbox(
-                                                //       value: false,
-                                                //       onChanged: (value) {
-                                                //         setState(() {});
-                                                //       },
-                                                //     ),
-                                                //   ],
-                                                // ),
                                                 Container(
                                                   margin: EdgeInsets.symmetric(
                                                       vertical: 10),
@@ -217,7 +140,6 @@ class _MyAppState extends State<Home> {
                                                         MainAxisAlignment
                                                             .center,
                                                     children: [
-                                                      
                                                       SizedBox(
                                                         width: 10,
                                                       ),
@@ -228,10 +150,13 @@ class _MyAppState extends State<Home> {
                                                                       .blue),
                                                           onPressed: () {
                                                             setState(() {
-                                                              allProducts=_filterProd();
-                                                         print(result!.length);
-                                                          Navigator.pop(context);
-                                                          value=false;
+                                                              allProducts =
+                                                                  _filterProd();
+                                                              print(result!
+                                                                  .length);
+                                                              Navigator.pop(
+                                                                  context);
+                                                              value = false;
                                                             });
                                                           },
                                                           child: Text('Apply')),
@@ -299,8 +224,7 @@ class _MyAppState extends State<Home> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceAround,
                                       children: [
-                                        if (allProducts![index]
-                                                .on_sale ==
+                                        if (allProducts![index].on_sale ==
                                             true) ...[
                                           Text(
                                             "\$${allProducts![index].regular_price}",
@@ -320,9 +244,7 @@ class _MyAppState extends State<Home> {
                                                 fontSize: 18),
                                           ),
                                         ],
-
-                                        if (allProducts![index]
-                                                .on_sale ==
+                                        if (allProducts![index].on_sale ==
                                             true) ...[
                                           Text(
                                             "\$${allProducts![index].sale_price}",
@@ -332,10 +254,6 @@ class _MyAppState extends State<Home> {
                                                 fontSize: 18),
                                           ),
                                         ],
-                                        // Text(
-                                        //   "\$${snapshot.data!.products[index].regular_price}",
-                                        //   style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),
-                                        // ),
                                       ],
                                     ),
                                   ),
@@ -352,8 +270,6 @@ class _MyAppState extends State<Home> {
                                 ],
                               ),
                             );
-
-                     
                           }),
                     ),
                   ],
@@ -376,6 +292,4 @@ class _MyAppState extends State<Home> {
       ),
     );
   }
-
- 
 }

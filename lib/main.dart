@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
- 
-import 'package:wedevs_assignment/signUp.dart';
 
- 
+import 'package:wedevs_assignment/screens/signUp.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,14 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      // theme: ThemeData(
-      //    primarySwatch: Colors.blue,
-      //    textTheme:GoogleFonts.latoTextTheme(textTheme).copyWith(
-      //      bodyText1: GoogleFonts.montserrat(textStyle: textTheme.bodyText1),
-      //    ),
-      // ),
-      
-      // home: WelcomePage(),
+ 
       home: SignUpPage(),
     );
   }
