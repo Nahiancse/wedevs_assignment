@@ -209,6 +209,8 @@ class _LoginUpPageState extends State<LoginUpPage> {
         print('object');
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => BotNav()));
+        // Navigator.push(
+        //     context, MaterialPageRoute(builder: (context) => BotNav()));
       } else {
         print('bad request');
       }
